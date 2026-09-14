@@ -168,3 +168,28 @@ class RetrievedEvidence(BaseModel):
     chunks: List[DocumentChunk]
 
     similarity_scores: Optional[List[float]] = None
+
+
+class FieldExtractionResult(BaseModel):
+    """The structured extraction for a single schema field."""
+    field_name: str
+    value: Any = Field(..., description="Extracted value, scalar, or list")
+    qualifiers: Optional[str] = Field(
+        default=None,
+        description="Explicit caveats, conditions, temporary factors, or nuance framing the value"
+    )
+    confidence: str = Field(
+        ...,
+        description="Self-assessed confidence based purely on evidence ('HIGH', 'MEDIUM', 'LOW', 'UNSUPPORTED')"
+    )
+    cited_chunk_ids: List[str] = Field(
+        default_factory=list,
+        description="IDs of the specific chunks that provided this evidence"
+    )
+
+class DocumentExtractionResult(BaseModel):
+    """The complete structured document extraction result."""
+    doc_id: str
+    namespace: str
+    extractions: Dict[str, FieldExtractionResult]
+    raw_json_output: Dict[str, Any]

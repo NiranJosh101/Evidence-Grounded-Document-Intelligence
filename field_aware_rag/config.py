@@ -5,12 +5,16 @@ class Settings(BaseSettings):
     CHUNK_OVERLAP: int = 50
     ENCODING_NAME: str = "cl100k_base"
     
-    # Phase 2 Settings
-    EMBEDDING_MODEL_NAME: str = "all-MiniLM-L6-v2"  # Fast, accurate 384-dim model
-    TOP_K_PER_QUERY: int = 2                       # Chunks per query variant
+    # Embedding & Pinecone Settings
+    EMBEDDING_MODEL_NAME: str = "all-MiniLM-L6-v2"
+    PINECONE_API_KEY: str = ""
+    PINECONE_INDEX_NAME: str = "evident-index"
+    TOP_K_PER_QUERY: int = 2
     TOP_K_PER_FIELD: int = 4
-    PINECONE_API_KEY: str = "your-pinecone-api-key"  # API key for Pinecone
-    PINECONE_INDEX_NAME: str = "your-pinecone-index-name"  # Name of the Pinecone index
+
+    # Phase 3: Anthropic Settings
+    ANTHROPIC_API_KEY: str = ""
+    CLAUDE_MODEL: str = "claude-3-5-sonnet-20241022"  # Fast, highly capable at structured JSON
 
     class Config:
         env_file = ".env"
