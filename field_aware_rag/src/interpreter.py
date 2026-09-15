@@ -36,6 +36,7 @@ class EvidenceInterpreter:
         doc_id: str,
         namespace: str,
         retrieved_evidence: Dict[str, RetrievedEvidence],
+        retry_prompt: str = "",
     ) -> DocumentExtractionResult:
         """
         Interprets the retrieved evidence for every target field
@@ -50,6 +51,7 @@ class EvidenceInterpreter:
             extraction = self._interpret_field(
                 field_name=field_name,
                 evidence=evidence,
+                retry_prompt=retry_prompt,
             )
 
             extractions[field_name] = extraction
@@ -66,16 +68,13 @@ class EvidenceInterpreter:
         self,
         field_name: str,
         evidence: RetrievedEvidence,
+        retry_prompt: str = "",
     ) -> FieldExtractionResult:
         """
         Interprets evidence for a single target field.
         """
 
-        # -----------------------------------------------------
-        # No retrieved evidence
-        # -----------------------------------------------------
         if not evidence.chunks:
-
             return FieldExtractionResult(
                 field_name=field_name,
                 value=None,
@@ -84,13 +83,9 @@ class EvidenceInterpreter:
                 cited_chunk_ids=[],
             )
 
-        # -----------------------------------------------------
-        # Format evidence for Claude
-        # -----------------------------------------------------
         evidence_blocks = []
 
         for chunk in evidence.chunks:
-
             evidence_blocks.append(
                 f"""
 --- CHUNK ID: {chunk.chunk_id} | PAGE: {chunk.page_number} ---
@@ -101,17 +96,20 @@ class EvidenceInterpreter:
 
         formatted_evidence = "\n\n".join(evidence_blocks)
 
-        # -----------------------------------------------------
-        # Build field-specific extraction prompt
-        # -----------------------------------------------------
         user_prompt = FIELD_EXTRACTION_PROMPT.format(
             field_name=field_name,
             evidence_text=formatted_evidence,
         )
 
-        # -----------------------------------------------------
-        # Ask Claude for structured output
-        # -----------------------------------------------------
+        # Add validator feedback when this is a retry
+        if retry_prompt:
+            user_prompt += f"""
+
+--- VALIDATION FEEDBACK ---
+
+{retry_prompt}
+"""
+
         response = self.client.messages.parse(
             model=self.model,
             max_tokens=1000,
@@ -126,16 +124,11 @@ class EvidenceInterpreter:
             output_format=FieldExtractionResult,
         )
 
-        # -----------------------------------------------------
-        # Claude SDK validates and parses the Pydantic output
-        # -----------------------------------------------------
         extraction = response.parsed_output
 
-        # Make sure provenance is always tied to retrieved evidence.
         extraction.cited_chunk_ids = [
             chunk.chunk_id
             for chunk in evidence.chunks
         ]
 
         return extraction
-

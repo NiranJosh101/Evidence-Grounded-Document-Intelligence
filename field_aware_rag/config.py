@@ -1,3 +1,4 @@
+import os
 from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
@@ -12,9 +13,9 @@ class Settings(BaseSettings):
     TOP_K_PER_QUERY: int = 2
     TOP_K_PER_FIELD: int = 4
 
-    # Phase 3: Anthropic Settings
-    ANTHROPIC_API_KEY: str = ""
-    CLAUDE_MODEL: str = "claude-3-5-sonnet-20241022"  # Fast, highly capable at structured JSON
+    # Gemini Settings
+    GEMINI_API_KEY: str = os.getenv("GEMINI_API_KEY", "")
+    DEFAULT_MODEL: str = "gemini-2.5-flash"
 
     class Config:
         env_file = ".env"
