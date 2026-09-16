@@ -2,8 +2,8 @@ import fitz  # PyMuPDF
 import tiktoken
 import hashlib
 from typing import List
-from config import settings
-from src.models import DocumentChunk
+from field_aware_rag.config import settings
+from field_aware_rag.src.models import DocumentChunk
 
 
 class PDFIngestor:

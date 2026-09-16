@@ -1,0 +1,162 @@
+[
+    {
+        "id": "gold_001",
+        "document_id": "report_001",
+        "field": "revenue_growth",
+        "evidence": [
+            {
+                "chunk_id": "chunk_012",
+                "text": "Revenue increased 35% year-over-year to $4.2 billion."
+            }
+        ],
+        "expected": {
+            "field_name": "revenue_growth",
+            "value": "35%",
+            "qualifiers": "Year-over-year increase.",
+            "confidence": "HIGH",
+            "cited_chunk_ids": [
+                "chunk_012"
+            ]
+        }
+    },
+    {
+        "id": "gold_002",
+        "document_id": "report_002",
+        "field": "growth_drivers",
+        "evidence": [
+            {
+                "chunk_id": "chunk_021",
+                "text": "Revenue growth was primarily driven by increased enterprise demand and expansion into European markets."
+            }
+        ],
+        "expected": {
+            "field_name": "growth_drivers",
+            "value": "Increased enterprise demand and expansion into European markets.",
+            "qualifiers": "Management identified these as the primary drivers of growth.",
+            "confidence": "HIGH",
+            "cited_chunk_ids": [
+                "chunk_021"
+            ]
+        }
+    },
+    {
+        "id": "gold_003",
+        "document_id": "report_003",
+        "field": "revenue_growth",
+        "evidence": [
+            {
+                "chunk_id": "chunk_034",
+                "text": "Revenue increased 40% during the first half of the year, although management noted that this growth was largely attributable to a temporary pricing adjustment and should not be interpreted as indicative of underlying demand."
+            }
+        ],
+        "expected": {
+            "field_name": "revenue_growth",
+            "value": "40%",
+            "qualifiers": "First-half revenue increased 40%, but management attributed much of the increase to a temporary pricing adjustment and cautioned that it does not indicate underlying demand.",
+            "confidence": "HIGH",
+            "cited_chunk_ids": [
+                "chunk_034"
+            ]
+        }
+    },
+    {
+        "id": "gold_004",
+        "document_id": "report_004",
+        "field": "management_outlook",
+        "evidence": [
+            {
+                "chunk_id": "chunk_045",
+                "text": "Management expects demand to remain stable through the remainder of the fiscal year but does not anticipate significant growth in the near term."
+            }
+        ],
+        "expected": {
+            "field_name": "management_outlook",
+            "value": "Demand is expected to remain stable.",
+            "qualifiers": "Management does not anticipate significant near-term growth.",
+            "confidence": "HIGH",
+            "cited_chunk_ids": [
+                "chunk_045"
+            ]
+        }
+    },
+    {
+        "id": "gold_005",
+        "document_id": "report_005",
+        "field": "risks",
+        "evidence": [
+            {
+                "chunk_id": "chunk_057",
+                "text": "The company faces risks from regulatory changes, supply chain disruptions, and continued weakness in consumer spending."
+            }
+        ],
+        "expected": {
+            "field_name": "risks",
+            "value": "Regulatory changes, supply chain disruptions, and weakness in consumer spending.",
+            "qualifiers": "These risks may negatively affect future business performance.",
+            "confidence": "HIGH",
+            "cited_chunk_ids": [
+                "chunk_057"
+            ]
+        }
+    },
+    {
+        "id": "gold_006",
+        "document_id": "report_006",
+        "field": "guidance",
+        "evidence": [
+            {
+                "chunk_id": "chunk_063",
+                "text": "For the next fiscal year, management expects revenue between $10.0 billion and $10.5 billion."
+            }
+        ],
+        "expected": {
+            "field_name": "guidance",
+            "value": "$10.0 billion–$10.5 billion",
+            "qualifiers": "Revenue guidance for the next fiscal year.",
+            "confidence": "HIGH",
+            "cited_chunk_ids": [
+                "chunk_063"
+            ]
+        }
+    },
+    {
+        "id": "gold_007",
+        "document_id": "report_007",
+        "field": "profitability",
+        "evidence": [
+            {
+                "chunk_id": "chunk_071",
+                "text": "Operating margin declined from 18% to 14% as the company increased spending on research and development."
+            }
+        ],
+        "expected": {
+            "field_name": "profitability",
+            "value": "Operating margin declined from 18% to 14%.",
+            "qualifiers": "The decline was attributed to increased research and development spending.",
+            "confidence": "HIGH",
+            "cited_chunk_ids": [
+                "chunk_071"
+            ]
+        }
+    },
+    {
+        "id": "gold_008",
+        "document_id": "report_008",
+        "field": "market_conditions",
+        "evidence": [
+            {
+                "chunk_id": "chunk_084",
+                "text": "The company continues to operate in a challenging market environment characterized by elevated interest rates and weaker consumer demand."
+            }
+        ],
+        "expected": {
+            "field_name": "market_conditions",
+            "value": "Challenging market conditions.",
+            "qualifiers": "Elevated interest rates and weaker consumer demand are contributing to the difficult environment.",
+            "confidence": "HIGH",
+            "cited_chunk_ids": [
+                "chunk_084"
+            ]
+        }
+    }
+]

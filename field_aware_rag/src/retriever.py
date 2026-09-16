@@ -1,8 +1,8 @@
 from typing import List, Dict, Set
 
-from config import settings
-from src.models import DocumentChunk, TargetSchema, RetrievedEvidence
-from src.vector_store import VectorStore
+from field_aware_rag.config import settings
+from field_aware_rag.src.models import DocumentChunk, TargetSchema, RetrievedEvidence
+from field_aware_rag.src.vector_store import VectorStore
 
 
 class FieldAwareRetriever:

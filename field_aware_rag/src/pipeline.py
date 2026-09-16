@@ -1,9 +1,9 @@
 from typing import Dict, Tuple
 
-from src.models import TargetSchema, DocumentExtractionResult, RetrievedEvidence
-from src.retriever import FieldAwareRetriever
-from src.interpreter import EvidenceInterpreter
-from runtime_validator.validator import RuntimeValidator, ValidationResult
+from field_aware_rag.src.models import TargetSchema, DocumentExtractionResult, RetrievedEvidence
+from field_aware_rag.src.retriever import FieldAwareRetriever
+from field_aware_rag.src.interpreter import EvidenceInterpreter
+from field_aware_rag.runtime_validator.validator import RuntimeValidator, ValidationResult
 
 
 class IngestionPipeline:

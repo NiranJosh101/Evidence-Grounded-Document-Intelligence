@@ -1,6 +1,6 @@
 from typing import List, Dict, Any, Tuple
-from src.models import DocumentExtractionResult, RetrievedEvidence, FieldExtractionResult
-from runtime_validator.model import ValidationResult, ValidationIssue
+from field_aware_rag.src.models import DocumentExtractionResult, RetrievedEvidence, FieldExtractionResult
+from field_aware_rag.runtime_validator.model import ValidationResult, ValidationIssue
 
 class RuntimeValidator:
     """Validates individual document extractions against source evidence chunks."""

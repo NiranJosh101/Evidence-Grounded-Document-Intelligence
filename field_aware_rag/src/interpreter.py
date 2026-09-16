@@ -1,14 +1,15 @@
 from typing import Dict, Any
+import json
 
-from anthropic import Anthropic
+from openrouter import OpenRouter
 
-from config import settings
-from src.models import (
+from field_aware_rag.config import settings
+from field_aware_rag.src.models import (
     RetrievedEvidence,
     FieldExtractionResult,
     DocumentExtractionResult,
 )
-from src.prompts import (
+from field_aware_rag.src.prompts import (
     INTERPRETER_SYSTEM_PROMPT,
     FIELD_EXTRACTION_PROMPT,
 )
@@ -16,7 +17,7 @@ from src.prompts import (
 
 class EvidenceInterpreter:
     """
-    Uses Anthropic Claude to interpret field-specific evidence
+    Uses OpenRouter to interpret field-specific evidence
     and produce structured extraction results.
 
     This component is responsible only for interpretation.
@@ -25,10 +26,10 @@ class EvidenceInterpreter:
 
     def __init__(
         self,
-        api_key: str = settings.ANTHROPIC_API_KEY,
-        model: str = settings.CLAUDE_MODEL,
+        api_key: str = settings.OPENROUTER_API_KEY,
+        model: str = settings.DEFAULT_MODEL,
     ):
-        self.client = Anthropic(api_key=api_key)
+        self.client = OpenRouter(api_key=api_key)
         self.model = model
 
     def interpret_document(
@@ -71,7 +72,7 @@ class EvidenceInterpreter:
         retry_prompt: str = "",
     ) -> FieldExtractionResult:
         """
-        Interprets evidence for a single target field.
+        Interprets evidence for a single target field using OpenRouter.
         """
 
         if not evidence.chunks:
@@ -110,22 +111,54 @@ class EvidenceInterpreter:
 {retry_prompt}
 """
 
-        response = self.client.messages.parse(
+        # Convert the Pydantic model into JSON Schema
+        schema = FieldExtractionResult.model_json_schema()
+
+        # OpenRouter structured-output request
+        response = self.client.chat.send(
             model=self.model,
-            max_tokens=1000,
-            temperature=0.0,
-            system=INTERPRETER_SYSTEM_PROMPT,
             messages=[
+                {
+                    "role": "system",
+                    "content": INTERPRETER_SYSTEM_PROMPT,
+                },
                 {
                     "role": "user",
                     "content": user_prompt,
-                }
+                },
             ],
-            output_format=FieldExtractionResult,
+            temperature=0.0,
+            response_format={
+                "type": "json_schema",
+                "json_schema": {
+                    "name": "field_extraction_result",
+                    "strict": True,
+                    "schema": schema,
+                },
+            },
+            stream=False,
         )
 
-        extraction = response.parsed_output
+        # Get the model's JSON response
+        content = response.choices[0].message.content
 
+        print("\n===== OPENROUTER RESPONSE =====")
+        print("MODEL:", self.model)
+        print("CONTENT:", repr(content))
+        print("RESPONSE:", response)
+        print("===============================\n")
+
+        if not content:
+            raise ValueError(
+                f"OpenRouter returned an empty response for field '{field_name}'"
+            )
+
+        parsed_output = json.loads(content)
+
+        # Validate against our Pydantic model
+        extraction = FieldExtractionResult.model_validate(parsed_output)
+
+        # Attach original chunk IDs for provenance traceability
         extraction.cited_chunk_ids = [
             chunk.chunk_id
             for chunk in evidence.chunks

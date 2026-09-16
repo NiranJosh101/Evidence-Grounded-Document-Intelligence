@@ -3,8 +3,8 @@ from typing import List, Tuple
 from pinecone import Pinecone
 from sentence_transformers import SentenceTransformer
 
-from config import settings
-from src.models import DocumentChunk
+from field_aware_rag.config import settings
+from field_aware_rag.src.models import DocumentChunk
 
 
 class VectorStore:

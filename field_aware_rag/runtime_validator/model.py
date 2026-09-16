@@ -1,6 +1,6 @@
 from typing import List, Dict, Any, Tuple
 from pydantic import BaseModel, Field
-from src.models import DocumentExtractionResult, RetrievedEvidence, FieldExtractionResult
+from field_aware_rag.src.models import DocumentExtractionResult, RetrievedEvidence, FieldExtractionResult
 
 
 class ValidationIssue(BaseModel):
